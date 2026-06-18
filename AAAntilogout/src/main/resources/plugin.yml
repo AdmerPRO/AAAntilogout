@@ -1,0 +1,9 @@
+name: AAAntilogout
+description: $description
+version: '${version}'
+
+main: pl.admerpro.aAAntilogout.Main
+api-version: '1.21.11'
+load: POSTWORLD
+
+authors: [ AdmerPRO ]
