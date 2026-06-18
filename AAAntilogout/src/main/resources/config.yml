@@ -1,0 +1,98 @@
+# Main combat settings.
+combat:
+  enabled: true
+  duration-seconds: 30
+  refresh-timer-on-hit: true
+  ignore-creative-spectator: true
+  disabled-worlds:
+    - lobby
+
+# Logout punishment. When a tagged player leaves, their inventory is dropped and the player is killed.
+punishments:
+  logout:
+    kill: true
+    drop-items: true
+    clear-inventory: true
+    broadcast: true
+
+# Visual feedback shown while a player is in combat.
+visuals:
+  bossbar:
+    enabled: true
+
+# Combat restrictions.
+restrictions:
+  commands:
+    # BLACKLIST blocks listed commands. WHITELIST allows only listed commands.
+    mode: BLACKLIST
+    list:
+      - spawn
+      - tpa
+      - tpaccept
+      - home
+      - warp
+      - kit
+      - ec
+      - enderchest
+      - fly
+  items:
+    blocked:
+      - ENDER_PEARL
+      - CHORUS_FRUIT
+      - WIND_CHARGE
+      - FIREWORK_ROCKET
+  teleport:
+    # Use ALL to block every teleport cause during combat.
+    blocked-causes:
+      - ENDER_PEARL
+      - CHORUS_FRUIT
+      - COMMAND
+      - PLUGIN
+  item-drop:
+    block: false
+  elytra:
+    block: true
+
+# Region protection. WorldGuard is optional; local regions work without it.
+regions:
+  block-in-combat: true
+  prevent-tagging-inside-blocked-region: true
+  blocked:
+    - spawn
+  worldguard:
+    enabled: true
+  local-regions:
+    spawn:
+      world: world
+      min: [ -50, -64, -50 ]
+      max: [ 50, 320, 50 ]
+
+# Battle history stored in battle-history.yml.
+history:
+  max-records-per-player: 5000
+  page-size: 8
+  record-server-stop: true
+
+messages:
+  prefix: "&8[&cAAAntylogout&8] &7"
+  no-permission: "{prefix}&cNie masz uprawnien."
+  unknown-command: "{prefix}&cNieznana komenda. Uzyj &f/aaalo help&c."
+  reload: "{prefix}&aKonfiguracja zostala przeladowana."
+  player-not-online: "{prefix}&cTen gracz nie jest online."
+  usage-status: "{prefix}&cUzycie: &f/aaalo status <gracz>"
+  usage-history: "{prefix}&cUzycie: &f/aaalo history <gracz> [strona]"
+  usage-stats: "{prefix}&cUzycie: &f/aaalo stats <gracz>"
+  usage-end: "{prefix}&cUzycie: &f/aaalo end <gracz>"
+  status-safe: "{prefix}&aGracz &f{player} &anie jest w walce."
+  history-empty: "{prefix}&cBrak historii walk dla gracza &f{player}&c."
+  combat-start: "{prefix}&cJestes w walce z &f{opponent}&c. Nie wychodz przez &f{seconds}s&c!"
+  combat-end: "{prefix}&aWalka zakonczona. Powod: &f{result}&a."
+  combat-ended-admin: "{prefix}&aWalka gracza &f{player} &azostala zakonczona."
+  logout-broadcast: "{prefix}&cGracz &f{player} &cwyszedl podczas walki i zostal ukarany."
+  command-blocked: "{prefix}&cNie mozesz uzyc komendy &f/{command} &cpodczas walki."
+  item-blocked: "{prefix}&cNie mozesz uzyc itemu &f{item} &cpodczas walki."
+  teleport-blocked: "{prefix}&cTeleportacja jest zablokowana podczas walki."
+  drop-blocked: "{prefix}&cNie mozesz wyrzucac itemow podczas walki."
+  region-blocked: "{prefix}&cNie mozesz wejsc na ten region podczas walki."
+  elytra-blocked: "{prefix}&cElytra jest zablokowana podczas walki."
+  bossbar-title: "&cWalka: &f{time} &8| &7Przeciwnicy: &f{opponents}"

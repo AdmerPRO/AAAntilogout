@@ -1,9 +1,29 @@
-name: AAAntilogout
-description: $description
+name: AAAntylogout
+description: "Advanced anti-logout combat protection for Paper servers."
 version: '${version}'
 
-main: pl.admerpro.aAAntilogout.Main
-api-version: '1.21.11'
+main: pl.admerpro.aaantylogout.AAAntylogoutPlugin
+api-version: '1.21'
 load: POSTWORLD
+softdepend: [ WorldGuard ]
 
 authors: [ AdmerPRO ]
+website: https://modrinth.com/plugin/aaantylogout
+
+commands:
+  aaalo:
+    description: Main AAAntylogout administration command.
+    usage: /aaalo help
+    aliases: [ antylogout, al, aaalog, alo ]
+    permission: aaantylogout.admin
+
+permissions:
+  aaantylogout.admin:
+    description: Allows managing AAAntylogout and reading combat history.
+    default: op
+  aaantylogout.bypass:
+    description: Prevents the player from being tagged and bypasses combat restrictions.
+    default: false
+  aaantylogout.bypass.commands:
+    description: Allows using blocked combat commands while tagged.
+    default: false
