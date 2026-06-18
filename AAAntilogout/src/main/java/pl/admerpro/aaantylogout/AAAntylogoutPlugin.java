@@ -2,7 +2,7 @@ package pl.admerpro.aaantylogout;
 
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
-import pl.admerpro.aaantylogout.command.AntylogoutCommand;
+import pl.admerpro.aaantylogout.command.AntiLogoutCommand;
 import pl.admerpro.aaantylogout.combat.CombatManager;
 import pl.admerpro.aaantylogout.config.PluginSettings;
 import pl.admerpro.aaantylogout.history.HistoryService;
@@ -79,7 +79,7 @@ public final class AAAntylogoutPlugin extends JavaPlugin {
     }
 
     private void registerCommand() {
-        AntylogoutCommand command = new AntylogoutCommand(this);
+        AntiLogoutCommand command = new AntiLogoutCommand(this);
         PluginCommand pluginCommand = getCommand("aaalo");
         if (pluginCommand == null) {
             getLogger().severe("Command aaalo is missing from plugin.yml.");

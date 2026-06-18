@@ -1,54 +1,54 @@
 # AAAntylogout
 
-AAAntylogout to plugin antylogout dla Paper, ktory karze wyjscie podczas walki, zapisuje historie bitew graczy i blokuje ucieczki przez komendy, itemy, teleportacje oraz regiony.
+AAAntylogout is an advanced anti-logout plugin for Paper servers. It punishes combat logging, stores detailed battle history, and blocks common escape methods such as commands, items, teleportation, elytra and protected regions.
 
-## Funkcje
+## Features
 
-- Tagowanie PvP po uderzeniu gracza albo trafieniu pociskiem.
-- Kara za logout w walce: smierc, drop itemow i komunikat na serwerze.
-- Historia walk w `battle-history.yml`: czas trwania, przeciwnicy i zakonczenie (`timeout`, `death`, `logout`, `admin`, `server_stop`).
-- Komenda administracyjna `/aaalo` z aliasami `/antylogout`, `/al`, `/aaalog`, `/alo`.
-- Blokada komend w trybie blacklist albo whitelist.
-- Blokada itemow, teleportacji, wyrzucania itemow i elytry podczas walki.
-- Ochrona regionow z WorldGuard, jezeli jest zainstalowany.
-- Wlasne lokalne regiony w configu, gdy nie chcesz lub nie masz WorldGuard.
-- Bossbar z pozostajacym czasem walki.
-- Gotowy config i metadane pod publikacje na Modrinth.
+- PvP tagging after melee hits and projectile hits.
+- Combat logout punishment with death, item drops and an optional server broadcast.
+- Battle history in `battle-history.yml`: duration, opponents and result (`timeout`, `death`, `logout`, `admin`, `server_stop`).
+- Administration command `/aaalo` with aliases `/antylogout`, `/al`, `/aaalog`, `/alo`.
+- Command restriction mode: blacklist or whitelist.
+- Item, teleport, item drop and elytra restrictions during combat.
+- Optional WorldGuard region support.
+- Built-in local cuboid regions when WorldGuard is not installed.
+- Bossbar with remaining combat time.
+- Ready-to-publish Modrinth metadata and documentation.
 
-## Wymagania
+## Requirements
 
 - Paper 1.21+
 - Java 21
-- WorldGuard opcjonalnie
+- WorldGuard optional
 
-## Instalacja
+## Installation
 
-1. Zbuduj plugin komenda `mvn clean package` w folderze `AAAntilogout`.
-2. Wrzuć plik `AAAntylogout-1.0-SNAPSHOT.jar` z folderu `target` do folderu `plugins`.
-3. Uruchom serwer, edytuj `plugins/AAAntylogout/config.yml` i wykonaj `/aaalo reload`.
+1. Build the plugin with `mvn clean package` in the `AAAntilogout` folder.
+2. Put `AAAntylogout-1.0-SNAPSHOT.jar` from `target` into your server `plugins` folder.
+3. Start the server, edit `plugins/AAAntylogout/config.yml`, then run `/aaalo reload`.
 
-## Komendy
+## Commands
 
-| Komenda | Opis |
+| Command | Description |
 | --- | --- |
-| `/aaalo help` | Lista komend administracyjnych |
-| `/aaalo reload` | Przeladowuje konfiguracje |
-| `/aaalo status <gracz>` | Pokazuje aktywna walke gracza |
-| `/aaalo history <gracz> [strona]` | Pokazuje historie walk |
-| `/aaalo stats <gracz>` | Pokazuje statystyki walk |
-| `/aaalo end <gracz>` | Konczy walke gracza i przeciwnikow |
+| `/aaalo help` | Shows administration commands |
+| `/aaalo reload` | Reloads the configuration |
+| `/aaalo status <player>` | Shows a player's active combat |
+| `/aaalo history <player> [page]` | Shows battle history |
+| `/aaalo stats <player>` | Shows battle statistics |
+| `/aaalo end <player>` | Ends a player's combat |
 
-## Uprawnienia
+## Permissions
 
-| Permission | Opis |
+| Permission | Description |
 | --- | --- |
-| `aaantylogout.admin` | Dostep do komend administracyjnych |
-| `aaantylogout.bypass` | Gracz nie jest tagowany i omija ograniczenia |
-| `aaantylogout.bypass.commands` | Gracz moze uzywac blokowanych komend w walce |
+| `aaantylogout.admin` | Access to administration commands |
+| `aaantylogout.bypass` | Prevents tagging and bypasses combat restrictions |
+| `aaantylogout.bypass.commands` | Allows blocked commands during combat |
 
-## Regiony
+## Regions
 
-W configu ustawiasz liste nazw w `regions.blocked`. Jezeli WorldGuard jest dostepny, plugin sprawdza regiony WorldGuard o tych nazwach. Bez WorldGuard mozesz uzyc `regions.local-regions`, gdzie region ma nazwe, swiat i granice `min` oraz `max`.
+Set blocked region names in `regions.blocked`. If WorldGuard is installed, AAAntylogout matches those names against WorldGuard region IDs. Without WorldGuard, define matching cuboids in `regions.local-regions`.
 
 ## Build
 
@@ -57,6 +57,6 @@ cd AAAntilogout
 mvn clean package
 ```
 
-## Licencja
+## License
 
-MIT. Szczegoly w [LICENSE.md](LICENSE.md).
+MIT. See [LICENSE.md](LICENSE.md).

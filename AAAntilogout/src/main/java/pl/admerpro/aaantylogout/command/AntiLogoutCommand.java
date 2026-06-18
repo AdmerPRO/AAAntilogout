@@ -23,12 +23,12 @@ import pl.admerpro.aaantylogout.history.HistoryStats;
 import pl.admerpro.aaantylogout.util.Permissions;
 import pl.admerpro.aaantylogout.util.TimeFormatter;
 
-public final class AntylogoutCommand implements CommandExecutor, TabCompleter {
+public final class AntiLogoutCommand implements CommandExecutor, TabCompleter {
 
     private static final List<String> SUBCOMMANDS = List.of("help", "reload", "status", "history", "stats", "end");
     private final AAAntylogoutPlugin plugin;
 
-    public AntylogoutCommand(AAAntylogoutPlugin plugin) {
+    public AntiLogoutCommand(AAAntylogoutPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -93,9 +93,9 @@ public final class AntylogoutCommand implements CommandExecutor, TabCompleter {
 
         long remaining = plugin.combatManager().getRemainingMillis(target.getUniqueId());
         sender.sendMessage(plugin.messages().color("&8&m--------------------------------------------------"));
-        sender.sendMessage(plugin.messages().color("&cAAAntylogout &8| &fStatus gracza &c" + target.getName()));
-        sender.sendMessage(plugin.messages().color("&7Pozostalo: &f" + TimeFormatter.formatDuration(remaining)));
-        sender.sendMessage(plugin.messages().color("&7Przeciwnicy: &f" + session.get().opponentNamesText()));
+        sender.sendMessage(plugin.messages().color("&cAAAntylogout &8| &fPlayer status &c" + target.getName()));
+        sender.sendMessage(plugin.messages().color("&7Remaining: &f" + TimeFormatter.formatDuration(remaining)));
+        sender.sendMessage(plugin.messages().color("&7Opponents: &f" + session.get().opponentNamesText()));
         sender.sendMessage(plugin.messages().color("&7Start: &f" + TimeFormatter.formatDate(session.get().startedAt())));
         sender.sendMessage(plugin.messages().color("&8&m--------------------------------------------------"));
     }
@@ -125,12 +125,12 @@ public final class AntylogoutCommand implements CommandExecutor, TabCompleter {
         int to = Math.min(records.size(), from + pageSize);
 
         sender.sendMessage(plugin.messages().color("&8&m--------------------------------------------------"));
-        sender.sendMessage(plugin.messages().color("&cAAAntylogout &8| &fHistoria gracza &c" + records.get(0).playerName() + " &7(" + page + "/" + pages + ")"));
+        sender.sendMessage(plugin.messages().color("&cAAAntylogout &8| &fBattle history for &c" + records.get(0).playerName() + " &7(" + page + "/" + pages + ")"));
         for (BattleRecord record : records.subList(from, to)) {
             sender.sendMessage(plugin.messages().color("&7- &f" + TimeFormatter.formatDate(record.endedAt())
                 + " &8| &c" + record.result().configName()
-                + " &8| &7czas: &f" + TimeFormatter.formatDuration(record.durationMillis())
-                + " &8| &7z: &f" + record.opponentsText()));
+                + " &8| &7duration: &f" + TimeFormatter.formatDuration(record.durationMillis())
+                + " &8| &7against: &f" + record.opponentsText()));
         }
         sender.sendMessage(plugin.messages().color("&8&m--------------------------------------------------"));
     }
@@ -147,14 +147,14 @@ public final class AntylogoutCommand implements CommandExecutor, TabCompleter {
         }
         HistoryStats stats = plugin.historyService().getStats(playerId.get());
         sender.sendMessage(plugin.messages().color("&8&m--------------------------------------------------"));
-        sender.sendMessage(plugin.messages().color("&cAAAntylogout &8| &fStatystyki gracza &c" + stats.playerName()));
-        sender.sendMessage(plugin.messages().color("&7Walki lacznie: &f" + stats.total()));
+        sender.sendMessage(plugin.messages().color("&cAAAntylogout &8| &fBattle stats for &c" + stats.playerName()));
+        sender.sendMessage(plugin.messages().color("&7Total battles: &f" + stats.total()));
         sender.sendMessage(plugin.messages().color("&7Timeout: &f" + stats.count(CombatResult.TIMEOUT)));
         sender.sendMessage(plugin.messages().color("&7Death: &f" + stats.count(CombatResult.DEATH)));
         sender.sendMessage(plugin.messages().color("&7Logout: &f" + stats.count(CombatResult.LOGOUT)));
         sender.sendMessage(plugin.messages().color("&7Admin/server: &f" + (stats.count(CombatResult.ADMIN) + stats.count(CombatResult.SERVER_STOP))));
-        sender.sendMessage(plugin.messages().color("&7Sredni czas walki: &f" + TimeFormatter.formatDuration(stats.averageDurationMillis())));
-        sender.sendMessage(plugin.messages().color("&7Najdluzsza walka: &f" + TimeFormatter.formatDuration(stats.longestDurationMillis())));
+        sender.sendMessage(plugin.messages().color("&7Average battle duration: &f" + TimeFormatter.formatDuration(stats.averageDurationMillis())));
+        sender.sendMessage(plugin.messages().color("&7Longest battle: &f" + TimeFormatter.formatDuration(stats.longestDurationMillis())));
         sender.sendMessage(plugin.messages().color("&8&m--------------------------------------------------"));
     }
 
@@ -202,12 +202,12 @@ public final class AntylogoutCommand implements CommandExecutor, TabCompleter {
 
     private void sendHelp(CommandSender sender, String label) {
         sender.sendMessage(plugin.messages().color("&8&m--------------------------------------------------"));
-        sender.sendMessage(plugin.messages().color("&cAAAntylogout &8| &fKomendy administracyjne"));
-        sender.sendMessage(plugin.messages().color("&7/" + label + " reload &8- &fprzeladowuje config"));
-        sender.sendMessage(plugin.messages().color("&7/" + label + " status <gracz> &8- &fpokazuje aktywna walke"));
-        sender.sendMessage(plugin.messages().color("&7/" + label + " history <gracz> [strona] &8- &fhistoria walk"));
-        sender.sendMessage(plugin.messages().color("&7/" + label + " stats <gracz> &8- &fpodsumowanie walk"));
-        sender.sendMessage(plugin.messages().color("&7/" + label + " end <gracz> &8- &fkonczy walke gracza"));
+        sender.sendMessage(plugin.messages().color("&cAAAntylogout &8| &fAdministration commands"));
+        sender.sendMessage(plugin.messages().color("&7/" + label + " reload &8- &freloads the configuration"));
+        sender.sendMessage(plugin.messages().color("&7/" + label + " status <player> &8- &fshows active combat"));
+        sender.sendMessage(plugin.messages().color("&7/" + label + " history <player> [page] &8- &fshows battle history"));
+        sender.sendMessage(plugin.messages().color("&7/" + label + " stats <player> &8- &fshows battle statistics"));
+        sender.sendMessage(plugin.messages().color("&7/" + label + " end <player> &8- &fends a player's combat"));
         sender.sendMessage(plugin.messages().color("&8&m--------------------------------------------------"));
     }
 
