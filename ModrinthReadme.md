@@ -42,7 +42,7 @@ Aliases: `/antylogout`, `/al`, `/aaalog`, `/alo`
 
 Everything important is configurable in `config.yml`: combat duration, logout punishment, command mode, blocked items, teleport causes, region behavior, messages, bossbar, actionbar and chat reminders.
 
-WorldGuard is optional. If it is installed, names from `regions.blocked` are matched against WorldGuard region IDs. Without WorldGuard, define matching cuboids in `regions.local-regions`.
+**WorldGuard** is optional. If it is installed, names from `regions.blocked` are matched against WorldGuard region IDs. Without WorldGuard, define matching cuboids in `regions.local-regions`.
 
 ## First release
 
