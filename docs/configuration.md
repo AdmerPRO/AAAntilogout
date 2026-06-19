@@ -22,3 +22,7 @@ Add Bukkit material names to `restrictions.items.blocked`, for example `ENDER_PE
 ## Regions
 
 `regions.blocked` contains names that are forbidden during combat. With WorldGuard, these names match WorldGuard region IDs. Without WorldGuard, define cuboids in `regions.local-regions`.
+
+## Visuals
+
+`visuals.bossbar.enabled` controls the bossbar. `visuals.actionbar.enabled` controls the hotbar/actionbar text. `visuals.chat-reminder.enabled` and `visuals.chat-reminder.interval-seconds` control repeated chat messages with remaining combat time.

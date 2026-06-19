@@ -1,9 +1,9 @@
 # Main combat settings.
 combat:
   enabled: true
-  duration-seconds: 30
+  duration-seconds: 20
   refresh-timer-on-hit: true
-  ignore-creative-spectator: true
+  ignore-creative-spectator: false
   disabled-worlds:
     - lobby
 
@@ -19,6 +19,11 @@ punishments:
 visuals:
   bossbar:
     enabled: true
+  actionbar:
+    enabled: true
+  chat-reminder:
+    enabled: true
+    interval-seconds: 5
 
 # Combat restrictions.
 restrictions:
@@ -45,7 +50,6 @@ restrictions:
     # Use ALL to block every teleport cause during combat.
     blocked-causes:
       - ENDER_PEARL
-      - CHORUS_FRUIT
       - COMMAND
       - PLUGIN
   item-drop:
@@ -56,7 +60,9 @@ restrictions:
 # Region protection. WorldGuard is optional; local regions work without it.
 regions:
   block-in-combat: true
-  prevent-tagging-inside-blocked-region: true
+  # Keep this false if you want PvP hits to always start combat, even near spawn.
+  # Region names below still block players from entering those regions while tagged.
+  prevent-tagging-inside-blocked-region: false
   blocked:
     - spawn
   worldguard:
@@ -86,6 +92,7 @@ messages:
   status-safe: "{prefix}&aPlayer &f{player} &ais not in combat."
   history-empty: "{prefix}&cNo battle history found for &f{player}&c."
   combat-start: "{prefix}&cYou are in combat with &f{opponent}&c. Do not log out for &f{seconds}s&c!"
+  combat-reminder: "{prefix}&cYou are still in combat. Time left: &f{time}&c. Opponents: &f{opponents}&c."
   combat-end: "{prefix}&aCombat ended. Result: &f{result}&a."
   combat-ended-admin: "{prefix}&aCombat for &f{player} &ahas been ended."
   logout-broadcast: "{prefix}&cPlayer &f{player} &clogged out during combat and was punished."
@@ -96,3 +103,4 @@ messages:
   region-blocked: "{prefix}&cYou cannot enter this region during combat."
   elytra-blocked: "{prefix}&cElytra is blocked during combat."
   bossbar-title: "&cCombat: &f{time} &8| &7Opponents: &f{opponents}"
+  actionbar-title: "&cCombat &8| &f{time} &7left &8| &f{opponents}"

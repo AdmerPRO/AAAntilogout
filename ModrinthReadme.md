@@ -4,7 +4,7 @@ AAAntylogout is an advanced Paper anti-logout plugin for PvP servers. It tags pl
 
 ## Highlights
 
-- Combat timer with bossbar feedback
+- Combat timer with bossbar, actionbar and chat reminder feedback
 - Combat logout punishment with item drops
 - Admin history: duration, opponents and result for each fight
 - `/aaalo` command with aliases `/antylogout`, `/al`, `/aaalog`, `/alo`

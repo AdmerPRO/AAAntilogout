@@ -87,8 +87,8 @@ public final class CombatManager {
         if (victimNew) {
             messages.send(victim, "combat-start", "opponent", attacker.getName(), "seconds", String.valueOf(settings.combatSeconds()));
         }
-        updateIndicators(attackerSession);
-        updateIndicators(victimSession);
+        updateIndicators(attacker, attackerSession, now);
+        updateIndicators(victim, victimSession, now);
     }
 
     public boolean isInCombat(UUID playerId) {
@@ -157,17 +157,20 @@ public final class CombatManager {
             if (session.remainingMillis(now, settings.combatMillis()) <= 0L) {
                 finishSession(playerId, CombatResult.TIMEOUT, null, true);
             } else {
-                updateIndicators(session);
+                updateIndicators(player, session, now);
             }
         }
     }
 
-    private void updateIndicators(CombatSession session) {
+    private void updateIndicators(Player player, CombatSession session, long now) {
+        long remaining = getRemainingMillis(session.playerId());
+        updateBossBar(player, session, remaining);
+        updateActionBar(player, session, remaining);
+        sendChatReminder(player, session, remaining, now);
+    }
+
+    private void updateBossBar(Player player, CombatSession session, long remaining) {
         if (!settings.bossBarEnabled()) {
-            return;
-        }
-        Player player = Bukkit.getPlayer(session.playerId());
-        if (player == null) {
             return;
         }
         BossBar bossBar = session.bossBar();
@@ -175,7 +178,6 @@ public final class CombatManager {
             bossBar = Bukkit.createBossBar("", BarColor.RED, BarStyle.SOLID);
             session.setBossBar(bossBar);
         }
-        long remaining = getRemainingMillis(session.playerId());
         double progress = settings.combatMillis() <= 0L ? 0.0D : remaining / (double) settings.combatMillis();
         bossBar.setProgress(Math.max(0.0D, Math.min(1.0D, progress)));
         bossBar.setTitle(messages.format("bossbar-title",
@@ -184,6 +186,29 @@ public final class CombatManager {
         if (!bossBar.getPlayers().contains(player)) {
             bossBar.addPlayer(player);
         }
+    }
+
+    private void updateActionBar(Player player, CombatSession session, long remaining) {
+        if (!settings.actionBarEnabled()) {
+            return;
+        }
+        messages.actionBar(player, "actionbar-title",
+            "time", TimeFormatter.formatDuration(remaining),
+            "opponents", session.opponentNamesText());
+    }
+
+    private void sendChatReminder(Player player, CombatSession session, long remaining, long now) {
+        if (!settings.chatReminderEnabled()) {
+            return;
+        }
+        long intervalMillis = settings.chatReminderIntervalSeconds() * 1000L;
+        if (now - session.lastChatReminderAt() < intervalMillis) {
+            return;
+        }
+        session.markChatReminder(now);
+        messages.send(player, "combat-reminder",
+            "time", TimeFormatter.formatDuration(remaining),
+            "opponents", session.opponentNamesText());
     }
 
     private void finishSession(UUID playerId, CombatResult result, UUID triggerId, boolean notify) {

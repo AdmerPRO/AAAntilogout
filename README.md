@@ -12,7 +12,7 @@ AAAntylogout is an advanced anti-logout plugin for Paper servers. It punishes co
 - Item, teleport, item drop and elytra restrictions during combat.
 - Optional WorldGuard region support.
 - Built-in local cuboid regions when WorldGuard is not installed.
-- Bossbar with remaining combat time.
+- Bossbar, actionbar and chat reminders with remaining combat time.
 - Ready-to-publish Modrinth metadata and documentation.
 
 ## Requirements

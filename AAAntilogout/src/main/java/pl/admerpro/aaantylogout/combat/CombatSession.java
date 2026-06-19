@@ -13,6 +13,7 @@ public final class CombatSession {
     private String playerName;
     private final long startedAt;
     private long lastTaggedAt;
+    private long lastChatReminderAt;
     private final Map<UUID, String> opponents = new LinkedHashMap<>();
     private BossBar bossBar;
 
@@ -21,6 +22,7 @@ public final class CombatSession {
         this.playerName = player.getName();
         this.startedAt = now;
         this.lastTaggedAt = now;
+        this.lastChatReminderAt = now;
     }
 
     public void touch(Player player, Player opponent, long now, boolean refreshTimer) {
@@ -63,6 +65,14 @@ public final class CombatSession {
 
     public long lastTaggedAt() {
         return lastTaggedAt;
+    }
+
+    public long lastChatReminderAt() {
+        return lastChatReminderAt;
+    }
+
+    public void markChatReminder(long now) {
+        this.lastChatReminderAt = now;
     }
 
     public Map<UUID, String> opponents() {

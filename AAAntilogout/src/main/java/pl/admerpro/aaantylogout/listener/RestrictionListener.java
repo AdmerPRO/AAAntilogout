@@ -39,10 +39,7 @@ public final class RestrictionListener implements Listener {
             return;
         }
         String command = event.getMessage().substring(1).split(" ")[0].toLowerCase(Locale.ROOT);
-        if (player.hasPermission(Permissions.COMMAND_BYPASS) || combatManager.getSession(player.getUniqueId()).isEmpty()) {
-            return;
-        }
-        if (!combatManager.getSession(player.getUniqueId()).isPresent()) {
+        if (player.hasPermission(Permissions.COMMAND_BYPASS)) {
             return;
         }
         if (!messages.settings().isCommandAllowed(command)) {

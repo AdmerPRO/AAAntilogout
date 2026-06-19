@@ -1,5 +1,8 @@
 package pl.admerpro.aaantylogout.listener;
 
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -11,6 +14,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
@@ -24,6 +28,7 @@ public final class CombatListener implements Listener {
     private final AAAntylogoutPlugin plugin;
     private final CombatManager combatManager;
     private final MessageService messages;
+    private final Set<UUID> pendingJoinDeaths = ConcurrentHashMap.newKeySet();
 
     public CombatListener(AAAntylogoutPlugin plugin, CombatManager combatManager, MessageService messages) {
         this.plugin = plugin;
@@ -61,6 +66,19 @@ public final class CombatListener implements Listener {
         }
     }
 
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        if (!pendingJoinDeaths.remove(player.getUniqueId())) {
+            return;
+        }
+        plugin.getServer().getScheduler().runTask(plugin, () -> {
+            if (player.isOnline() && !player.isDead() && plugin.settings().killOnLogout()) {
+                player.setHealth(0.0D);
+            }
+        });
+    }
+
     private Player findAttacker(Entity damager) {
         if (damager instanceof Player player) {
             return player;
@@ -75,9 +93,6 @@ public final class CombatListener implements Listener {
     }
 
     private void punishLogout(Player player) {
-        if (!plugin.settings().killOnLogout()) {
-            return;
-        }
         if (plugin.settings().dropItemsOnLogout()) {
             dropInventory(player);
         }
@@ -86,6 +101,10 @@ public final class CombatListener implements Listener {
             player.getInventory().setArmorContents(new ItemStack[4]);
             player.getInventory().setItemInOffHand(null);
         }
+        if (!plugin.settings().killOnLogout()) {
+            return;
+        }
+        pendingJoinDeaths.add(player.getUniqueId());
         if (!player.isDead()) {
             try {
                 player.setHealth(0.0D);
