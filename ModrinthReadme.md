@@ -1,24 +1,19 @@
 # AAAntylogout
 
-AAAntylogout is an advanced Paper anti-logout plugin for PvP servers. It tags players in combat, punishes combat logging, stores battle history, and blocks common escape methods such as commands, pearls, chorus fruit, teleportation and protected regions.
+AAAntylogout is a lightweight but fully featured anti-logout plugin for Paper PvP servers. It starts a combat timer when players hit each other, warns them with chat, bossbar and actionbar feedback, blocks common escape methods, and punishes combat logging with death and item drops.
 
-## Highlights
+## Why use it?
 
-- Combat timer with bossbar, actionbar and chat reminder feedback
-- Combat logout punishment with item drops
-- Admin history: duration, opponents and result for each fight
-- `/aaalo` command with aliases `/antylogout`, `/al`, `/aaalog`, `/alo`
-- Command restrictions in blacklist or whitelist mode
-- Blocked items and teleport causes
-- Optional WorldGuard region support
-- Built-in local cuboid regions without dependencies
-- Fully configurable messages and behavior
-
-## Requirements
-
-- Paper 1.21+
-- Java 21
-- WorldGuard is optional
+- Clear 20-second combat timer after PvP hits
+- Bossbar, actionbar and chat reminders while tagged
+- Combat logout punishment with death, item drops and broadcast messages
+- Command restrictions with blacklist or whitelist mode
+- Blocked items such as ender pearls, chorus fruit, wind charges and rockets
+- Teleport, item drop and elytra restrictions during combat
+- Optional WorldGuard support for blocked regions
+- Built-in local cuboid regions without any dependency
+- Battle history for admins with duration, opponents and result
+- Configurable death behavior: surviving opponents can stay tagged after a kill
 
 ## Commands
 
@@ -29,12 +24,26 @@ AAAntylogout is an advanced Paper anti-logout plugin for PvP servers. It tags pl
 - `/aaalo stats <player>`
 - `/aaalo end <player>`
 
+Aliases: `/antylogout`, `/al`, `/aaalog`, `/alo`
+
 ## Permissions
 
-- `aaantylogout.admin`
-- `aaantylogout.bypass`
-- `aaantylogout.bypass.commands`
+- `aaantylogout.admin` - access to administration commands
+- `aaantylogout.bypass` - bypasses combat tagging and restrictions
+- `aaantylogout.bypass.commands` - allows blocked commands during combat
 
-## Notes
+## Requirements
 
-The plugin works without WorldGuard. If WorldGuard is installed, names from `regions.blocked` are matched against WorldGuard region IDs. Without WorldGuard, define the same names in `regions.local-regions`.
+- Paper 1.21+
+- Java 21
+- WorldGuard is optional
+
+## Configuration
+
+Everything important is configurable in `config.yml`: combat duration, logout punishment, command mode, blocked items, teleport causes, region behavior, messages, bossbar, actionbar and chat reminders.
+
+WorldGuard is optional. If it is installed, names from `regions.blocked` are matched against WorldGuard region IDs. Without WorldGuard, define matching cuboids in `regions.local-regions`.
+
+## First release
+
+Version `1.0.0` is the first production release of AAAntylogout.

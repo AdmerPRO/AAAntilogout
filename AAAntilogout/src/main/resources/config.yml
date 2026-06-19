@@ -4,6 +4,9 @@ combat:
   duration-seconds: 20
   refresh-timer-on-hit: true
   ignore-creative-spectator: false
+  # true: when a player dies, their opponents stay in combat until the timer ends.
+  # false: a death ends combat for everyone involved.
+  keep-timer-after-opponent-death: true
   disabled-worlds:
     - lobby
 

@@ -6,4 +6,4 @@ If you find a security issue, report it privately to the project owner before pu
 
 ## Supported Versions
 
-The `1.0-SNAPSHOT` line is the first development version. Security fixes should be applied to the latest available build.
+The `1.0.x` line is the first supported production line. Security fixes should be applied to the latest available build.

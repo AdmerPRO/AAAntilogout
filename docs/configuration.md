@@ -6,6 +6,8 @@ The default configuration is generated as `plugins/AAAntylogout/config.yml`.
 
 `combat.duration-seconds` controls how long a player stays tagged. `combat.refresh-timer-on-hit` decides whether every hit resets the timer.
 
+`combat.keep-timer-after-opponent-death` controls what happens after a combat death. When it is `true`, only the dead player leaves combat and surviving opponents stay tagged until their timer ends. When it is `false`, a death ends combat for everyone involved.
+
 ## Commands
 
 `restrictions.commands.mode` accepts `BLACKLIST` or `WHITELIST`.

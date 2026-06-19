@@ -120,6 +120,10 @@ public final class CombatManager {
         }
     }
 
+    public void finishPlayer(Player player, CombatResult result) {
+        finishSession(player.getUniqueId(), result, player.getUniqueId(), true);
+    }
+
     private boolean canTag(Player attacker, Player victim) {
         if (!settings.enabled() || attacker.equals(victim)) {
             return false;

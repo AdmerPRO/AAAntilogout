@@ -50,6 +50,10 @@ public final class CombatListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onDeath(PlayerDeathEvent event) {
+        if (plugin.settings().keepTimerAfterOpponentDeath()) {
+            combatManager.finishPlayer(event.getEntity(), CombatResult.DEATH);
+            return;
+        }
         combatManager.finishGroup(event.getEntity(), CombatResult.DEATH);
     }
 
