@@ -2,7 +2,7 @@
 
 ## What's new
 
-- Updated server compatibility to Paper 26.3 (Java 25). Plugin version remains 1.1.0.
+- Updated server compatibility to Paper 26.2 (Java 25). Plugin version remains 1.1.0.
 
 - **Safe server restarts:** active fights end without combat logout penalties or punishment broadcasts when the server is stopping.
 - **Crash recovery:** active combat sessions are saved when a new fight starts and checkpointed every second. After an unexpected shutdown, saved sessions are closed without penalties and recorded as `server_stop` in battle history.
