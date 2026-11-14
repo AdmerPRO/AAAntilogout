@@ -10,8 +10,8 @@
 - Project type: plugin
 - Platform/loader: Paper
 - Suggested categories: `utility`, `server management`, `game mechanics`
-- Minecraft versions: `26.3`
-- Java requirement: Java 25
+- Minecraft versions: `1.21`
+- Java requirement: Java 21
 - Optional dependency: WorldGuard
 
 ## Version Upload
