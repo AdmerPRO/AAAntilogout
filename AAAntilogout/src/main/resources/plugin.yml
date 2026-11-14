@@ -1,6 +1,6 @@
 name: AAAntylogout
 description: "Advanced anti-logout combat protection for Paper servers."
-version: '${version}'
+version: '${project.version}'
 
 main: pl.admerpro.aaantylogout.AAAntylogoutPlugin
 api-version: '1.21'
