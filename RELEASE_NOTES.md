@@ -16,6 +16,6 @@ First production release.
 
 ## Compatibility
 
-- Paper 1.21+
-- Java 21
+- Paper 26.3
+- Java 25
 - WorldGuard optional

@@ -34,8 +34,8 @@ Aliases: `/antylogout`, `/al`, `/aaalog`, `/alo`
 
 ## Requirements
 
-- Paper 1.21+
-- Java 21
+- Paper 26.3
+- Java 25
 - WorldGuard is optional
 
 ## Configuration

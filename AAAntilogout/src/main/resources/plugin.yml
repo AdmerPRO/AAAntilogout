@@ -3,7 +3,7 @@ description: "Advanced anti-logout combat protection for Paper servers."
 version: '${project.version}'
 
 main: pl.admerpro.aaantylogout.AAAntylogoutPlugin
-api-version: '1.21'
+api-version: '26.3'
 load: POSTWORLD
 softdepend: [ WorldGuard ]
 

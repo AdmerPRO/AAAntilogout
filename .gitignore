@@ -69,3 +69,6 @@ permissions.yml
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Collected release builds
+/artifacts/
