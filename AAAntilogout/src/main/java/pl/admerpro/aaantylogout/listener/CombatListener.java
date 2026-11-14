@@ -60,6 +60,10 @@ public final class CombatListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+        if (plugin.getServer().isStopping()) {
+            combatManager.shutdown();
+            return;
+        }
         if (!combatManager.isInCombat(player.getUniqueId())) {
             return;
         }

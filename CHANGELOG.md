@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Prevent combat logout penalties and broadcasts while the server is stopping.
+- Persist active combat snapshots and recover interrupted fights as server-stop history without penalties.
+- Save battle history through a temporary file to reduce corruption during interrupted writes.
+
 ## 1.0.0
 
 - Added combat tagging.

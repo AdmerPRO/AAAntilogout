@@ -28,3 +28,24 @@ Add Bukkit material names to `restrictions.items.blocked`, for example `ENDER_PE
 ## Visuals
 
 `visuals.bossbar.enabled` controls the bossbar. `visuals.actionbar.enabled` controls the hotbar/actionbar text. `visuals.chat-reminder.enabled` and `visuals.chat-reminder.interval-seconds` control repeated chat messages with remaining combat time.
+
+## Restart protection
+
+When Paper reports that the server is stopping, active fights end without logout
+punishments or punishment broadcasts. This also covers shutdowns initiated by
+plugins or the hosting panel when they use normal server shutdown.
+
+Active sessions are checkpointed in the `active-sessions` section of
+`battle-history.yml` when a new fight starts and once per second during combat.
+After an unexpected shutdown, the next enable consumes those snapshots as
+`server_stop` history entries. Timers and penalties are never restored. The
+recorded end time is the last checkpoint, not the time the server starts again.
+Up to one second of recent combat updates can be missing after a crash.
+
+`history.record-server-stop: false` skips stop/recovery history entries while
+keeping protection enabled. Snapshots are still cleared so they cannot be
+recovered on a later restart.
+
+A panel that kicks players before initiating server shutdown must be configured
+to stop the server normally; a kick while the server is still running is treated
+as an ordinary logout.

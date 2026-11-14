@@ -31,6 +31,7 @@ public final class CombatManager {
     private final ConcurrentMap<UUID, CombatSession> sessions = new ConcurrentHashMap<>();
     private PluginSettings settings;
     private BukkitTask task;
+    private boolean shuttingDown;
 
     public CombatManager(AAAntylogoutPlugin plugin, PluginSettings settings, MessageService messages, HistoryService historyService, RegionService regionService) {
         this.plugin = plugin;
@@ -41,10 +42,15 @@ public final class CombatManager {
     }
 
     public void start() {
+        historyService.recoverInterruptedSessions();
         task = Bukkit.getScheduler().runTaskTimer(plugin, this::tick, 20L, 20L);
     }
 
     public void shutdown() {
+        if (shuttingDown) {
+            return;
+        }
+        shuttingDown = true;
         if (task != null) {
             task.cancel();
             task = null;
@@ -56,6 +62,7 @@ public final class CombatManager {
         } else {
             sessions.values().forEach(CombatSession::removeBossBar);
             sessions.clear();
+            historyService.clearActiveSessions();
         }
     }
 
@@ -89,6 +96,9 @@ public final class CombatManager {
         }
         updateIndicators(attacker, attackerSession, now);
         updateIndicators(victim, victimSession, now);
+        if (attackerNew || victimNew) {
+            historyService.checkpointSessions(sessions.values());
+        }
     }
 
     public boolean isInCombat(UUID playerId) {
@@ -125,7 +135,7 @@ public final class CombatManager {
     }
 
     private boolean canTag(Player attacker, Player victim) {
-        if (!settings.enabled() || attacker.equals(victim)) {
+        if (shuttingDown || plugin.getServer().isStopping() || !settings.enabled() || attacker.equals(victim)) {
             return false;
         }
         if (attacker.hasPermission(Permissions.BYPASS) || victim.hasPermission(Permissions.BYPASS)) {
@@ -148,6 +158,10 @@ public final class CombatManager {
     }
 
     private void tick() {
+        if (plugin.getServer().isStopping()) {
+            shutdown();
+            return;
+        }
         long now = System.currentTimeMillis();
         for (UUID playerId : Set.copyOf(sessions.keySet())) {
             CombatSession session = sessions.get(playerId);
@@ -163,6 +177,9 @@ public final class CombatManager {
             } else {
                 updateIndicators(player, session, now);
             }
+        }
+        if (!sessions.isEmpty()) {
+            historyService.checkpointSessions(sessions.values());
         }
     }
 

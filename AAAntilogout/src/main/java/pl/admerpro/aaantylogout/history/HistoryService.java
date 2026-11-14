@@ -2,6 +2,9 @@ package pl.admerpro.aaantylogout.history;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.Collection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
@@ -15,6 +18,7 @@ import java.util.logging.Level;
 import org.bukkit.configuration.file.YamlConfiguration;
 import pl.admerpro.aaantylogout.AAAntylogoutPlugin;
 import pl.admerpro.aaantylogout.combat.CombatResult;
+import pl.admerpro.aaantylogout.combat.CombatSession;
 import pl.admerpro.aaantylogout.config.PluginSettings;
 
 public final class HistoryService {
@@ -35,7 +39,51 @@ public final class HistoryService {
         this.settings = settings;
     }
 
+    public void checkpointSessions(Collection<CombatSession> sessions) {
+        data.set("active-sessions", null);
+        long now = System.currentTimeMillis();
+        for (CombatSession session : sessions) {
+            BattleRecord snapshot = BattleRecord.fromSession(session, CombatResult.SERVER_STOP, null, now);
+            data.set("active-sessions." + session.playerId(), toMap(snapshot));
+        }
+        save();
+    }
+
+    public void clearActiveSessions() {
+        data.set("active-sessions", null);
+        save();
+    }
+
+    public void recoverInterruptedSessions() {
+        var active = data.getConfigurationSection("active-sessions");
+        if (active == null) {
+            return;
+        }
+        int recovered = 0;
+        for (String key : new ArrayList<>(active.getKeys(false))) {
+            var snapshot = active.getConfigurationSection(key);
+            Optional<BattleRecord> record = Optional.empty();
+            try {
+                if (snapshot != null) {
+                    record = fromMap(UUID.fromString(key), snapshot.getValues(false));
+                }
+            } catch (IllegalArgumentException exception) {
+                plugin.getLogger().warning("Skipped invalid interrupted session: " + key);
+            }
+            data.set("active-sessions." + key, null);
+            if (settings.recordServerStop() && record.isPresent()) {
+                record(record.get());
+                recovered++;
+            }
+        }
+        clearActiveSessions();
+        if (recovered > 0) {
+            plugin.getLogger().info("Recovered " + recovered + " interrupted combat sessions without penalties.");
+        }
+    }
+
     public void record(BattleRecord record) {
+        data.set("active-sessions." + record.playerId(), null);
         String path = path(record.playerId());
         List<Map<?, ?>> rawRecords = new ArrayList<>(data.getMapList(path));
         rawRecords.add(toMap(record));
@@ -98,7 +146,13 @@ public final class HistoryService {
             if (!file.getParentFile().exists() && !file.getParentFile().mkdirs()) {
                 plugin.getLogger().warning("Could not create plugin data folder.");
             }
-            data.save(file);
+            File temporary = new File(file.getParentFile(), file.getName() + ".tmp");
+            data.save(temporary);
+            try {
+                Files.move(temporary.toPath(), file.toPath(), StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+            } catch (java.nio.file.AtomicMoveNotSupportedException exception) {
+                Files.move(temporary.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
         } catch (IOException exception) {
             plugin.getLogger().log(Level.SEVERE, "Could not save battle-history.yml.", exception);
         }

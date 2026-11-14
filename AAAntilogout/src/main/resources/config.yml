@@ -80,6 +80,7 @@ regions:
 history:
   max-records-per-player: 5000
   page-size: 8
+  # Also records interrupted sessions recovered after a crash; never restores penalties.
   record-server-stop: true
 
 messages:
