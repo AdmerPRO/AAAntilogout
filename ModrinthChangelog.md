@@ -1,4 +1,4 @@
-# 1.1.0 — Restart and crash protection
+# AAAntiLogout 1.1.0
 
 ## What's new
 
