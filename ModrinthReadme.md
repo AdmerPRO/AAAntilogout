@@ -34,16 +34,19 @@ Aliases: `/antylogout`, `/al`, `/aaalog`, `/alo`
 
 ## Requirements
 
-- Paper 26.3
-- Java 25
-- WorldGuard is optional
+Builds are available for Paper 1.21.x through 26.3. Download the JAR matching your server version.
+
+| Paper version | Required Java version |
+| --- | --- |
+| 1.21.x | Java 21 or newer |
+| 26.1.x | Java 25 or newer |
+| 26.2 | Java 25 or newer |
+| 26.3 | Java 25 or newer |
+
+WorldGuard is optional.
 
 ## Configuration
 
 Everything important is configurable in `config.yml`: combat duration, logout punishment, command mode, blocked items, teleport causes, region behavior, messages, bossbar, actionbar and chat reminders.
 
 **WorldGuard** is optional. If it is installed, names from `regions.blocked` are matched against WorldGuard region IDs. Without WorldGuard, define matching cuboids in `regions.local-regions`.
-
-## First release
-
-Version `1.0.0` is the first production release of AAAntylogout.
